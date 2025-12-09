@@ -71,6 +71,7 @@ const App = {
 
             // Render giao dien tuong ung
             if (isModern) {
+                // --- FIX UI: Them pr-32 (padding-right) cho Key va pr-20 cho IV ---
                 cfg.innerHTML = `
                     <div class="mb-5">
                         <label class="block text-lg font-bold mb-2 text-slate-700">Mode</label>
@@ -89,7 +90,7 @@ const App = {
                             </div>
                         </div>
                         <div class="relative">
-                            <input id="keyInput" oninput="App.validateUI()" class="w-full p-3 border rounded-lg text-lg font-mono shadow-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Enter Key...">
+                            <input id="keyInput" oninput="App.validateUI()" class="w-full p-3 pr-32 border rounded-lg text-lg font-mono shadow-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Enter Key...">
                             <div id="keyStatus" class="absolute right-3 top-4 text-xs font-bold transition-colors"></div>
                         </div>
                     </div>
@@ -103,7 +104,7 @@ const App = {
                             </div>
                         </div>
                         <div class="flex relative">
-                            <input id="ivInput" oninput="App.validateUI()" class="w-full p-3 border rounded-l-lg text-lg font-mono shadow-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Enter IV...">
+                            <input id="ivInput" oninput="App.validateUI()" class="w-full p-3 pr-20 border rounded-l-lg text-lg font-mono shadow-sm focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Enter IV...">
                             <button id="btnGenIV" class="px-5 border border-l-0 rounded-r-lg bg-gray-100 hover:bg-gray-200 text-xl text-gray-600 shadow-sm transition"><i class="fas fa-dice"></i></button>
                             <div id="ivStatus" class="absolute right-16 top-4 text-xs font-bold transition-colors mr-2"></div>
                         </div>
@@ -208,15 +209,16 @@ const App = {
         const keyStatus = document.getElementById('keyStatus');
         const keyInput = document.getElementById('keyInput');
 
+        // --- FIX LOGIC: Luon duy tri class pr-32 de tranh de chu ---
         if (keyVal.length === 0) {
             keyStatus.innerHTML = '';
-            keyInput.className = "w-full p-3 border rounded-lg text-lg font-mono shadow-sm focus:ring-2 focus:ring-blue-500 outline-none";
+            keyInput.className = "w-full p-3 pr-28 border rounded-lg text-lg font-mono shadow-sm focus:ring-2 focus:ring-blue-500 outline-none";
         } else if (keyValid) {
             keyStatus.innerHTML = `<span class="text-green-600"><i class="fas fa-check-circle"></i> OK (${keyLen} bytes)</span>`;
-            keyInput.className = "w-full p-3 border-2 border-green-500 rounded-lg text-lg font-mono shadow-sm bg-green-50 outline-none";
+            keyInput.className = "w-full p-3 pr-28 border-2 border-green-500 rounded-lg text-lg font-mono shadow-sm bg-green-50 outline-none";
         } else {
             keyStatus.innerHTML = `<span class="text-red-500"><i class="fas fa-times-circle"></i> ${keyLen} bytes</span>`;
-            keyInput.className = "w-full p-3 border-2 border-red-500 rounded-lg text-lg font-mono shadow-sm bg-red-50 outline-none";
+            keyInput.className = "w-full p-3 pr-28 border-2 border-red-500 rounded-lg text-lg font-mono shadow-sm bg-red-50 outline-none";
         }
 
         if (mode === 'CBC') {
@@ -225,15 +227,16 @@ const App = {
             const ivStatus = document.getElementById('ivStatus');
             const ivInput = document.getElementById('ivInput');
 
+            // --- FIX LOGIC: Luon duy tri class pr-20 ---
             if (ivVal.length === 0) {
                 ivStatus.innerHTML = `<span class="text-orange-400">Auto</span>`;
-                ivInput.className = "w-full p-3 border rounded-l-lg text-lg font-mono shadow-sm focus:ring-2 focus:ring-blue-500 outline-none";
+                ivInput.className = "w-full p-3 pr-7 border rounded-l-lg text-lg font-mono shadow-sm focus:ring-2 focus:ring-blue-500 outline-none";
             } else if (ivLen === targetIV) {
                 ivStatus.innerHTML = `<span class="text-green-600"><i class="fas fa-check"></i></span>`;
-                ivInput.className = "w-full p-3 border-2 border-green-500 rounded-l-lg text-lg font-mono shadow-sm bg-green-50 outline-none";
+                ivInput.className = "w-full p-3 pr-7 border-2 border-green-500 rounded-l-lg text-lg font-mono shadow-sm bg-green-50 outline-none";
             } else {
                 ivStatus.innerHTML = `<span class="text-red-500">${ivLen}</span>`;
-                ivInput.className = "w-full p-3 border-2 border-red-500 rounded-l-lg text-lg font-mono shadow-sm bg-red-50 outline-none";
+                ivInput.className = "w-full p-3 pr-7 border-2 border-red-500 rounded-l-lg text-lg font-mono shadow-sm bg-red-50 outline-none";
             }
         }
     },
