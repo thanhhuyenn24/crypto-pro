@@ -22,15 +22,20 @@ const loadQuadgramsIfNeeded = async (cb) => {
 };
 
 const Classical = {
-    // === TASK 1: CAESAR CIPHER ===
+    // === TASK 1: CAESAR CIPHER (DA TOI UU) ===
     caesar: async (text) => {
         // 1. Dam bao du lieu Quadgrams da san sang
         await loadQuadgramsIfNeeded();
 
         const useQuad = Object.keys(Scoring.quadgrams).length > 0;
-        let bestKey = 0, bestScore = -Infinity, bestPlain = "";
+        
+        // TOI UU: Chi lay toi da 2000 ky tu dau tien de phan tich tim Key
+        // Giam tai dang ke khi xu ly van ban dai
+        const analysisText = text.length > 2000 ? text.slice(0, 2000) : text;
+        
+        let bestKey = 0, bestScore = -Infinity;
 
-        // Ham tinh diem Chi-Binh phuong (Fallback khi khong co Quadgrams)
+        // Ham tinh diem Chi-Binh phuong
         const scoreChiSquared = (txt) => {
             const clean = txt.toUpperCase().replace(/[^A-Z]/g, '');
             const counts = {};
@@ -45,21 +50,35 @@ const Classical = {
             return -chi;
         };
 
-        // 2. Vet can tat ca 26 truong hop dich chuyen
-        for (let k = 0; k < 26; k++) {
-            let plain = "";
-            for (let c of text) {
+        // Ham giai ma Caesar noi bo
+        const decrypt = (str, k) => {
+            let res = "";
+            for (let c of str) {
                 let code = c.charCodeAt(0);
-                if (code >= 65 && code <= 90) plain += String.fromCharCode((code - 65 - k + 26) % 26 + 65);
-                else if (code >= 97 && code <= 122) plain += String.fromCharCode((code - 97 - k + 26) % 26 + 97);
-                else plain += c;
+                if (code >= 65 && code <= 90) res += String.fromCharCode((code - 65 - k + 26) % 26 + 65);
+                else if (code >= 97 && code <= 122) res += String.fromCharCode((code - 97 - k + 26) % 26 + 97);
+                else res += c;
             }
+            return res;
+        };
 
+        // 2. Tim Key tot nhat dua tren mau thu (Sample Text)
+        for (let k = 0; k < 26; k++) {
+            let candidate = decrypt(analysisText, k);
+            
             // Uu tien dung Quadgrams de tinh diem
-            let s = useQuad ? Scoring.score(plain) : scoreChiSquared(plain);
-            if (s > bestScore) { bestScore = s; bestKey = k; bestPlain = plain; }
+            let s = useQuad ? Scoring.score(candidate) : scoreChiSquared(candidate);
+            
+            if (s > bestScore) { 
+                bestScore = s; 
+                bestKey = k; 
+            }
         }
-        return { key: bestKey, pt: bestPlain, score: bestScore };
+
+        // 3. Giai ma TOAN BO van ban voi Key tot nhat da tim duoc
+        const finalPlaintext = decrypt(text, bestKey);
+
+        return { key: bestKey, pt: finalPlaintext, score: bestScore };
     },
 
     // === TASK 2: SUBSTITUTION CIPHER (MONO) ===
