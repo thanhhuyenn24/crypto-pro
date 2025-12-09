@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Professional</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; }
+        /* Custom Scrollbar */
         textarea::-webkit-scrollbar { width: 8px; }
         textarea::-webkit-scrollbar-track { background: #f1f5f9; }
         textarea::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        /* Loading Overlay Effect */
         .loading-overlay { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(2px); }
     </style>
 </head>
+
 <body class="h-screen flex flex-col overflow-hidden text-slate-800">
 
-    <!-- HEADER -->
     <div class="bg-slate-900 text-white p-4 shadow-lg z-20 flex justify-between items-center shrink-0">
         <div class="flex items-center gap-4">
             <div class="bg-blue-600 w-12 h-12 rounded flex items-center justify-center font-bold text-2xl shadow">CP</div>
@@ -25,22 +30,16 @@
                 <p class="text-sm text-slate-400">DES • AES • Classical</p>
             </div>
         </div>
-        <div id="storageStatus" class="text-sm px-4 py-2 rounded bg-slate-800 text-slate-400 border border-slate-700 flex items-center gap-2">
-            <i class="fas fa-database"></i> Quadgrams: <span id="quadStatusText">Checking...</span>
-        </div>
     </div>
 
-    <!-- MAIN LAYOUT -->
     <div class="flex flex-grow overflow-hidden">
-        
-        <!-- LEFT: CONFIG -->
+
         <div class="w-96 bg-white border-r border-slate-200 flex flex-col shrink-0 z-10 shadow-xl overflow-y-auto">
             <div class="p-4 border-b border-slate-100 bg-slate-50">
                 <h2 class="text-xl font-bold text-slate-700 uppercase tracking-wider"><i class="fas fa-sliders-h mr-2"></i>Control Panel</h2>
             </div>
-            
+
             <div class="p-5 space-y-5">
-                <!-- ALGO SELECTOR -->
                 <div>
                     <label class="block text-lg font-bold mb-2 text-slate-700">Algorithm / Task</label>
                     <div class="relative">
@@ -59,41 +58,21 @@
                     </div>
                 </div>
 
-                <!-- RESOURCE AREA (UPDATED TEXT) -->
-                <div id="resourceArea" class="hidden p-3 bg-blue-50 rounded-lg border border-blue-100">
-                    <label class="block text-sm font-bold mb-2 text-blue-800 uppercase">Training Data</label>
-                    <div id="uploadSection">
-                        <p class="text-xs text-blue-600 mb-2">Required for analysis. Must upload every session.</p>
-                        <input type="file" id="quadFile" class="hidden" accept=".txt">
-                        <button id="btnUploadQuad" class="w-full py-2 bg-white border border-blue-300 text-blue-700 text-sm font-medium rounded hover:bg-blue-100 transition">
-                            <i class="fas fa-upload mr-1"></i> Upload english_quadgrams.txt
-                        </button>
-                    </div>
-                    <div id="loadedSection" class="hidden flex justify-between items-center">
-                        <span class="text-sm font-bold text-green-700"><i class="fas fa-check-circle mr-1"></i> Loaded (RAM)</span>
-                        <button id="btnClearStorage" class="text-xs text-red-500 hover:underline">Clear</button>
-                    </div>
-                </div>
-
-                <!-- DYNAMIC CONFIG -->
                 <div id="configArea" class="space-y-4"></div>
 
-                <!-- ACTIONS -->
                 <div id="actionArea" class="pt-2"></div>
 
-                <!-- STATUS BOX -->
                 <div id="statusBox" class="hidden p-3 bg-gray-100 border border-gray-200 rounded text-sm font-mono text-gray-600 h-24 overflow-y-auto"></div>
             </div>
         </div>
 
-        <!-- RIGHT: I/O -->
         <div class="flex-grow flex flex-col bg-slate-50 relative">
+            
             <div id="loadingOverlay" class="hidden absolute inset-0 z-50 loading-overlay flex flex-col items-center justify-center">
                 <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-3"></div>
                 <div class="text-blue-800 font-bold animate-pulse" id="loadingText">Processing...</div>
             </div>
 
-            <!-- Input -->
             <div class="h-1/2 flex flex-col border-b border-slate-200 bg-white">
                 <div class="px-5 py-2 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                     <div class="flex items-center gap-2">
@@ -106,7 +85,6 @@
                 <textarea id="inputText" class="flex-grow p-4 font-mono text-sm resize-none focus:outline-none" placeholder="Enter text..."></textarea>
             </div>
 
-            <!-- Output -->
             <div class="h-1/2 flex flex-col bg-white">
                 <div class="px-5 py-2 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
                     <span class="text-xl font-bold text-slate-700 uppercase"><i class="fas fa-arrow-left mr-1"></i>Output</span>
@@ -117,10 +95,10 @@
         </div>
     </div>
 
-    <!-- LOAD MODULES IN ORDER -->
     <script src="js/utils.js"></script>
     <script src="js/classic.js"></script>
     <script src="js/modern.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>
