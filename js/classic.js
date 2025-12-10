@@ -22,7 +22,7 @@ const loadQuadgramsIfNeeded = async (cb) => {
 };
 
 const Classical = {
-    // === TASK 1: CAESAR CIPHER (DA TOI UU) ===
+    // === TASK 1: CAESAR CIPHER ===
     caesar: async (text) => {
         // 1. Dam bao du lieu Quadgrams da san sang
         await loadQuadgramsIfNeeded();
@@ -207,6 +207,20 @@ const Classical = {
                 if (chi < minChi) { minChi = chi; bestShift = s; }
             }
             key += String.fromCharCode(bestShift + 65);
+        }
+
+        const originalKey = key;
+        for (let len = 1; len <= key.length / 2; len++) {
+            // Neu do dai hien tai chia het cho len
+            if (key.length % len === 0) {
+                const subKey = key.substring(0, len);
+                // Kiem tra neu lap lai subKey du so lan ma ra dung key goc
+                if (subKey.repeat(key.length / len) === key) {
+                    key = subKey;
+                    bestLen = len;
+                    break;
+                }
+            }
         }
 
         // 3. Giai ma voi khoa tim duoc
